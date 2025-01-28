@@ -124,7 +124,7 @@ ______                             _____                     _
             print("Type EXIT to go back to the menu:")
             burgerName = input("\nInput burger NAME: ")
 
-            if burgerName == "exit" or burgerName == "EXIT":
+            if user.lower == "exit":
                 break
     
             for burger in self.inventory:
@@ -144,7 +144,7 @@ ______                             _____                     _
             elif user == "n" or user == "N":
                 self.pause()
                 break
-    
+
     def update_burger(self):
         print("""\n _   _           _       _        ______                           
 | | | |         | |     | |       | ___ \                          
@@ -155,4 +155,16 @@ ______                             _____                     _
       | |                                           __/ |          
       |_|                                          |___/           """)
     
-        
+        index = 0
+        exiting = False
+        while True:
+            print("\nDISPONIBLE products: \n")
+            for burger in self.inventory:
+                index += 1
+                print("Number ", index , ":")
+                print("Name: ", burger[0] + "\nMeat: ", burger[1], "g", "\nPrice: ", burger[2], "€\n")
+
+            print("Type EXIT to go back to the menu.")
+            print("Select the burger you want to update from 1 at", index)
+
+        self.pause()
