@@ -48,6 +48,7 @@ class Engine:
         print("3. Remove item")
         print("4. Search item")
         print("5. Update item")
+        print("6. Umbral Price")
         print("0. Exit")
 
     def run(self):
@@ -65,6 +66,8 @@ class Engine:
                 self.search_item()
             elif user == "5":
                 self.update_item()
+            elif user == "6":
+                self.ubral_price()
             elif user == "0":
                 break
             else:
@@ -157,9 +160,8 @@ class Engine:
                                              
                                              
 """)    
+        self.exit_or_do("product", "add")
         while True:
-            self.exit_or_do("product", "add")
-
             # Resetear la variable y salir del bucle
             if(self.exiting == True):
                 self.exiting = False
@@ -171,26 +173,27 @@ class Engine:
             if(self.choosedNum == 1):
                 productName = input("Introduce burger NAME: " )
                 for burger in self.burgers:
-                    if burger[0] == productName:
+                    if str(burger[0]).lower() == productName.lower():
                         error = True
                         print("Product already exist, please try again.")
             elif(self.choosedNum == 2):
                 productName = input("Introduce drink NAME: " )
                 for drink in self.drinks:
-                    if drink[0] == productName:
+                    if drink[0] == productName.lower():
                         error = True
                         print("Product already exist, please try again.")
             elif(self.choosedNum == 3):
                 productName = input("Introduce potato NAME: " )
                 for potato in self.potatoes:
-                    if potato[0] == productName:
+                    if potato[0] == productName.lower():
                         error = True
                         print("Product already exist, please try again.")
 
-            items = self.add_item_back()
-
             if error == False:# Si no hay error nos salimos del bucle while :)
                 break
+
+        items = self.add_item_back()
+
         
         # Añadimos el producto dependiendo de lo que ha elegiod el usuario
         if(self.choosedNum == 1):
@@ -239,7 +242,7 @@ class Engine:
                 print(f"WRONG input in {string1}, it has to be a NUMBER.")
         while item3 <= 0:
             try:
-                item3 = int(input(f"\nIntroduce {string2}: "))
+                item3 = float(input(f"\nIntroduce {string2}: "))
 
                 if item3 < 0:
                     print(f"WRONG input PRICE, it has to be a positive {string2}.")
@@ -376,11 +379,11 @@ class Engine:
                     # Por si en un futuro habrian mas opciones que que Name, Stock y Price para que no haya conflictos al elegir el campo
                     user = input()
                     length = 0
-                    if (choosedNum == 1):
+                    if (self.choosedNum == 1):
                         length = len(self.burgers[choosedNum])
-                    elif (choosedNum == 2):
+                    elif (self.choosedNum == 2):
                         length = len(self.drinks[choosedNum])
-                    elif (choosedNum == 3):
+                    elif (self.choosedNum == 3):
                         length = len(self.potatoes[choosedNum])
 
                     if int(user) > 0 and int(user) <= length:
@@ -424,8 +427,20 @@ class Engine:
                         elif (self.choosedNum == 3):
                             self.potatoes[choosedNum - 1][option - 1] = user
                         break
-                    else:
+                    elif option == 2:
                         user = int(user) #En caso de que sea un numero
+                        if user >= 0: # Comprobar que el numero es positivo
+                            if (self.choosedNum == 1):
+                                self.burgers[choosedNum - 1][option - 1] = user #Ajustarlo a tamaño array jeje god
+                            elif (self.choosedNum == 2):
+                                self.drinks[choosedNum - 1][option - 1] = user
+                            elif (self.choosedNum == 3):
+                                self.potatoes[choosedNum - 1][option - 1] = user
+                            break
+                        else:
+                            print("INVALID input, has to be a positive number.")
+                    else:
+                        user = float(user) #En caso de que sea un numero
                         if user >= 0: # Comprobar que el numero es positivo
                             if (self.choosedNum == 1):
                                 self.burgers[choosedNum - 1][option - 1] = user #Ajustarlo a tamaño array jeje god
@@ -498,12 +513,111 @@ ______
             index = self.print_disponible_items()
 
             #Comprobacion si el usuario decide salir del programa:
-            while True:
+            while self.exiting == False:
                 try:
                     print("Select the item you want to remove from 1 at", index)
-                    user = int(input())
+                    user = input()
+
+                    if int(user) > 0 and int(user) <= index:
+                        option = int(user) # Variable que vamos a utilizar mas abajo para saber que producto va a eliminar el usuario
+                        break
+                    else:
+                        print("INVALID input, has to be a number from 1 to", index)
                 except:
                     print("INVALID input, has to be a number from 1 to", index)
             
-            
+            #Borramos el producto
+            print("REMOVED PRODUCT:")
+            match self.choosedNum:
+                case 1:
+                    #Cambiar esto
+                    print("Name: ", self.burgers[option - 1][0] + "\nDisponible menus: ", self.burgers[option - 1][1], "\nPrice: ", self.burgers[option - 1][2], "€\n")
+                    self.burgers.remove(self.burgers[0])
+                    break
+                case 2: 
+                    print("Name: ", self.drinks[option - 1][0] + "\nStock: ", self.drinks[option - 1][1], "\nPrice: ", self.drinks[option - 1][2], "€\n")
+                    self.drinks.remove(option - 1)
+                    break
+                case 3: 
+                    print("Name: ", self.drinks[option - 1][0] + "\nStock: ", self.drinks[option - 1][1], "\nPrice: ", self.drinks[option - 1][2], "€\n")
+                    self.potatoes.remove(option - 1)
+                    break
+        # Reset the variable
+        self.choosedNum = 0
+
+        # Ver si el usuario desea seguir actualizando o no
+        while True:
+            user = input("\nCONTINUE removing? y/n: ")
+            if user == "y" or user == "Y":
+                self.remove_item()
+                break
+            elif user == "n" or user == "N":
+                self.pause()
+                break
     
+    def ubral_price(self):
+        print("""
+                 _               _ 
+ /\ /\ _ __ ___ | |__  _ __ __ _| |
+/ / \ \ '_ ` _ \| '_ \| '__/ _` | |
+\ \_/ / | | | | | |_) | | | (_| | |
+ \___/|_| |_| |_|_.__/|_|  \__,_|_|
+                                   
+""")
+        while self.exiting == False:
+            self.exit_or_do("product", "REMOVE")
+
+            #Resetear la variable y salir del bucle en caso de salir de este 
+            if self.exiting == True:
+                self.exiting = False
+                break
+            
+            while self.exiting == False:
+                try: 
+                    user = input("Introduce the umbral price: ")
+
+                    if int(user) > 0:
+                        price = int(user)
+                        break
+                    else:
+                        print("INVALID input, has to be a positive number.")
+                except:
+                    print("INVALID input, has to be a number.")
+            
+            print("\nProducts with a price lower than", price, "€:\n")
+            text = [] #Texto para saber si existe algun producto con un precio menor al que ha introducido el usuario sino se mostarara otro error
+            match self.choosedNum:
+                case 1:
+                    for burger in self.burgers:
+                        if burger[2] < price:
+                            text += f"Name: {burger[0]} Disponible menus: {burger[1]}, Price: {burger[2]}€\n"
+                case 2:
+                    for drink in self.drinks:
+                        if drink[2] < price:
+                            print("Name: ", drink[0] + "\nStock: ", drink[1], "\nPrice: ", drink[2], "€\n")
+                    break
+                case 3:
+                    for potato in self.potatoes:
+                        if potato[2] < price:
+                            print("Name: ", potato[0] + "\nStock: ", potato[1], "\nPrice: ", potato[2], "€\n")
+                    break
+            
+            #Comprobar si hay algo en el texto y sino que muestre un mensaje
+            if len(text) == 0:
+                print("NO products with a price lower than", price, "€.")
+            else:
+                for t in text:
+                    print(t)
+
+            # Reset the variable
+            self.choosedNum = 0
+
+            # Ver si el usuario desea seguir actualizando o no
+            while True:
+                user = input("\nCONTINUE searching? y/n: ")
+                if user == "y" or user == "Y":
+                    self.ubral_price()
+                    break
+                elif user == "n" or user == "N":
+                    self.pause()
+                    break
