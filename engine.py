@@ -6,7 +6,7 @@ class Engine:
                   ["La Emi Supreme", 30, 12],
                   ["La Emizilla", 30, 18],
                   ["La Emición Imposible", 2, 25],
-                  ["Emi-tame Esta", 10, 12]]
+                  ["Emi-tame Esta", 10, 25]]
         # Bebidas
         self.drinks = [
             ["Emi-Cola", 50, 2.5],
@@ -30,9 +30,15 @@ class Engine:
         self.exiting = False
         
     def pause(self):
+        """
+        Pausa la ejecución del programa hasta que el usuario presione Enter.
+        """
         input("\nPress Enter to continue...")
 
     def menu(self):
+        """
+        Muestra el menú principal con las opciones disponibles para el usuario.
+        """
         print("""
                                     (                                
             (       )    (        ( )\\    (   (    (  (     (   (    
@@ -48,10 +54,14 @@ class Engine:
         print("3. Remove item")
         print("4. Search item")
         print("5. Update item")
-        print("6. Umbral Price")
+        print("6. Umbral price")
+        print("7. Estadistics resume")
         print("0. Exit")
 
     def run(self):
+        """
+        Ejecuta el bucle principal del programa, mostrando el menú y esperando la selección del usuario.
+        """
         while True:
             self.menu()
             user = input("Enter your choice: ")
@@ -68,6 +78,8 @@ class Engine:
                 self.update_item()
             elif user == "6":
                 self.ubral_price()
+            elif user == "7":
+                self.estadistics_resume()
             elif user == "0":
                 break
             else:
@@ -75,15 +87,17 @@ class Engine:
                 continue
     
     def show_inventory(self):
+        """
+        Muestra el inventario de productos. El usuario puede elegir entre ver los productos de tipo hamburguesa, bebida o patatas, a través del metodo
+        exit_or_do, que se encarga de mostrar un mensaje y comprobar si el usuario quiere salir del programa, o que producto quiere ver.
+        """
         print("""\n
-    _____                     _                   
-    |_   _|                   | |                  
-    | | _ ____   _____ _ __ | |_ ___  _ __ _   _ 
-    | || '_ \ \ / / _ \ '_ \| __/ _ \| '__| | | |
-    _| || | | \ V /  __/ | | | || (_) | |  | |_| |
-    \___/_| |_|\_/ \___|_| |_|\__\___/|_|   \__, |
-                                            __/ |
-                                            |___/ 
+  _____                      _                   
+  \_   \_ ____   _____ _ __ | |_ ___  _ __ _   _ 
+   / /\/ '_ \ \ / / _ \ '_ \| __/ _ \| '__| | | |
+/\/ /_ | | | \ V /  __/ | | | || (_) | |  | |_| |
+\____/ |_| |_|\_/ \___|_| |_|\__\___/|_|   \__, |
+                                           |___/ 
     """)    
         while self.exiting == False:
             self.exit_or_do("inventory", "view")
@@ -124,6 +138,10 @@ class Engine:
 
     # Funcion que se menciona al principio de cada funcion para ahorrar codigo y no repetirlo
     def exit_or_do(self, type, do):
+        """
+        Método encargado de mostrar un mensaje y comprobar si el usuario quiere salir del programa, o que producto quiere ver. Usado en varios métodos,
+        como show_inventory, add_item, search_item, update_item, remove_item, ubral_price y estadistics_resume.
+        """
         while True:
             print("Type EXIT to go back to the menu:")
             print(f"\nWhat {type} do you want to {do}?\n1. Burgers\n2. Drinks\n3. Potatoes")
@@ -150,15 +168,17 @@ class Engine:
    
 
     def add_item(self):
+        """
+        Método encargado de añadir un producto al inventario. El usuario puede elegir entre añadir un producto de tipo hamburguesa, bebida o patatas, a través del metodo exit_or_do.
+        Ademas de tener otro metodo llamado add_item_back que se encarga de añadir un producto dependiendo de lo que ha elegido el usuario. (Para ahorrar codigo y no repetirlo)
+        """
         print("""\n
-  ___      _     _   _____ _                 
- / _ \    | |   | | |_   _| |                
-/ /_\ \ __| | __| |   | | | |_ ___ _ __ ___  
-|  _  |/ _` |/ _` |   | | | __/ _ \ '_ ` _ \ 
-| | | | (_| | (_| |  _| |_| ||  __/ | | | | |
-\_| |_/\__,_|\__,_|  \___/ \__\___|_| |_| |_|
-                                             
-                                             
+   _       _     _    _____ _                 
+  /_\   __| | __| |   \_   \ |_ ___ _ __ ___  
+ //_\\ / _` |/ _` |    / /\/ __/ _ \ '_ ` _ \ 
+/  _  \ (_| | (_| | /\/ /_ | ||  __/ | | | | |
+\_/ \_/\__,_|\__,_| \____/  \__\___|_| |_| |_|
+                                                                              
 """)    
         self.exit_or_do("product", "add")
         while True:
@@ -220,6 +240,9 @@ class Engine:
     
     # Funcion adicional que se encarga de añadir un producto
     def add_item_back(self):
+        """
+        Método usado en add_item, encargado de añadir un producto al inventario. Devuelve una lista con los valores introducidos por el usuario.
+        """
         item2 = 0
         item3 = 0
         if (self.choosedNum == 1):
@@ -253,16 +276,17 @@ class Engine:
         
 
     def search_item(self):
-        print("""\n _____                     _     
-/  ___|                   | |    
-\ `--.  ___  __ _ _ __ ___| |__  
- `--. \/ _ \/ _` | '__/ __| '_ \ 
-/\__/ /  __/ (_| | | | (__| | | |
-\____/ \___|\__,_|_|  \___|_| |_|
-                                 
+        """
+        Método encargado de buscar un producto en el inventario. El usuario puede elegir entre buscar un producto de tipo hamburguesa, bebida o patatas, a través del metodo
+        """
+        print("""\n 
+ __                     _     
+/ _\ ___  __ _ _ __ ___| |__  
+\ \ / _ \/ _` | '__/ __| '_ \ 
+_\ \  __/ (_| | | | (__| | | |
+\__/\___|\__,_|_|  \___|_| |_|
+                              
                                  """)
-        
-        
         encontrado = False
         while encontrado == False and self.exiting == False:
             self.exit_or_do("product", "SEARCH")
@@ -313,17 +337,18 @@ class Engine:
                 break
 
     def update_item(self):
+        """
+        Metodo encargado de actualizar un producto en el inventario. El usuario puede elegir entre actualizar un producto de tipo hamburguesa, bebida o patatas, a través del metodo exit_or_do.
+        Adémas de updatear los datos de un producto, por separado, como el nombre, stock o precio.
+        """
         print("""\n
- _   _           _       _         _ _                 
-| | | |         | |     | |       (_) |                
-| | | |_ __   __| | __ _| |_ ___   _| |_ ___ _ __ ___  
-| | | | '_ \ / _` |/ _` | __/ _ \ | | __/ _ \ '_ ` _ \ 
-| |_| | |_) | (_| | (_| | ||  __/ | | ||  __/ | | | | |
+                 _       _         _ _                 
+ /\ /\ _ __   __| | __ _| |_ ___  (_) |_ ___ _ __ ___  
+/ / \ \ '_ \ / _` |/ _` | __/ _ \ | | __/ _ \ '_ ` _ \ 
+\ \_/ / |_) | (_| | (_| | ||  __/ | | ||  __/ | | | | |
  \___/| .__/ \__,_|\__,_|\__\___| |_|\__\___|_| |_| |_|
-      | |                                              
-      |_|                                              
+      |_|                                                                                          
 """)
-    
         index = 0
         exiting = False
         
@@ -471,6 +496,9 @@ class Engine:
 
     # Funcion que imprime todos los productos disponibles y devuelve el inidice de productos de cada uno, de momento la uso en (remove y update)
     def print_disponible_items(self):
+        """
+        Método que imprime todos los productos disponibles y devuelve el índice de productos de cada uno. Usado en metodos como remove_item y update_item.
+        """
         index = 0
         if self.choosedNum == 1:
             for burger in self.burgers:
@@ -491,13 +519,15 @@ class Engine:
         return index
 
     def remove_item(self):
+        """
+        Método encargado de eliminar un producto del inventario. El usuario puede elegir entre eliminar un producto de tipo hamburguesa, bebida o patatas, a través del metodo exit_or_do. 
+        """
         print("""\n
-______                              
-| ___ \                             
-| |_/ /___ _ __ ___   _____   _____ 
-|    // _ \ '_ ` _ \ / _ \ \ / / _ \
-| |\ \  __/ | | | | | (_) \ V /  __/
-\_| \_\___|_| |_| |_|\___/ \_/ \___|
+   __                               
+  /__\ ___ _ __ ___   _____   _____ 
+ / \/// _ \ '_ ` _ \ / _ \ \ / / _ \\
+/ _  \  __/ | | | | | (_) \ V /  __/
+\/ \_/\___|_| |_| |_|\___/ \_/ \___|
                                     
                                     """)
         index = 0
@@ -556,6 +586,9 @@ ______
                 break
     
     def ubral_price(self):
+        """
+        Método encargado de buscar productos con un precio inferior al umbral introducido por el usuario. El usuario puede elegir entre buscar productos de tipo hamburguesa, bebida o patatas, a través del metodo exit_or_do.
+        """
         print("""
                  _               _ 
  /\ /\ _ __ ___ | |__  _ __ __ _| |
@@ -576,8 +609,8 @@ ______
                 try: 
                     user = input("Introduce the umbral price: ")
 
-                    if int(user) > 0:
-                        price = int(user)
+                    if float(user) > 0:
+                        price = float(user)
                         break
                     else:
                         print("INVALID input, has to be a positive number.")
@@ -590,16 +623,15 @@ ______
                 case 1:
                     for burger in self.burgers:
                         if burger[2] < price:
-                            text += f"Name: {burger[0]} Disponible menus: {burger[1]}, Price: {burger[2]}€\n"
+                            text += {f"Name: {burger[0]} \nDisponible menus: {burger[1]} \nPrice: {burger[2]}€\n"} # Array de objetos de tipo texto para poder imprimirlos bien
                 case 2:
                     for drink in self.drinks:
                         if drink[2] < price:
-                            print("Name: ", drink[0] + "\nStock: ", drink[1], "\nPrice: ", drink[2], "€\n")
-                    break
+                            text += {f"Name: {drink[0]} \nDisponible menus: {drink[1]} \nPrice: {drink[2]}€\n"}
                 case 3:
                     for potato in self.potatoes:
                         if potato[2] < price:
-                            print("Name: ", potato[0] + "\nStock: ", potato[1], "\nPrice: ", potato[2], "€\n")
+                            text += {f"Name: {drink[0]} \nDisponible menus: {drink[1]} \nPrice: {drink[2]}€\n"}
                     break
             
             #Comprobar si hay algo en el texto y sino que muestre un mensaje
@@ -611,13 +643,192 @@ ______
 
             # Reset the variable
             self.choosedNum = 0
+            break
 
-            # Ver si el usuario desea seguir actualizando o no
-            while True:
-                user = input("\nCONTINUE searching? y/n: ")
-                if user == "y" or user == "Y":
-                    self.ubral_price()
+        # Ver si el usuario desea seguir actualizando o no
+        while True:
+            user = input("\nCONTINUE searching? y/n: ")
+            if user == "y" or user == "Y":
+                self.ubral_price()
+                break
+            elif user == "n" or user == "N":
+                self.pause()
+                break
+    
+    def estadistics_resume(self):
+        """
+        Método que utiliza otros métodos para mostrar estadísticas del inventario. El usuario puede elegir entre ver el total de productos, los productos más baratos y caros, o el valor total del inventario.
+        A través de los métodos total_for_each, most_expensive, most_cheaper y total_inventory.
+        """
+        print("""\n
+   __    _            _ _     _   _          
+  /__\__| |_ __ _  __| (_)___| |_(_) ___ ___ 
+ /_\/ __| __/ _` |/ _` | / __| __| |/ __/ __|
+//__\__ \ || (_| | (_| | \__ \ |_| | (__\__ \\
+\__/|___/\__\__,_|\__,_|_|___/\__|_|\___|___/
+                                             """)
+
+        while self.exiting == False:
+            print("Type EXIT to go back to the menu:")
+            print("1. Total products\n2. Most cheeper and most expensive\n3. Inventory value")
+            while self.exiting == False:
+                try:
+                    user = input()
+
+                    if user == "exit" or user == "EXIT":
+                        self.exiting = True
+                        break
+
+                    if int(user) > 0 and int(user) <= 3:
+                        choosedNum = int(user)
+                        break
+                    else:
+                        print("INVALID input, has to be a number from 1 to 3 or type EXIT to go back to the menu.")
+                except:
+                    print("INVALID input, has to be a number from 1 to 3 or type EXIT to go back to the menu.")
+            
+            #Comprobacion si el usuario decide salir del programa y reiniciamos la variable
+            if self.exiting == True:
+                self.exiting = False
+                break
+
+            match choosedNum:
+                case 1:
+                    print("\nTOTAL PRODUCTS")
+                    totalBurgers = self.total_for_each("burgers")
+                    totalDrinks = self.total_for_each("drinks")
+                    totalPotatoes = self.total_for_each("potatoes")
+                    totalGeneral = totalBurgers + totalDrinks + totalPotatoes
+
+                    print("Total burgers:", totalBurgers,"\nTotal drinks:", totalDrinks, "\nTotal potatoes:", totalPotatoes, "\nTotal general:", totalGeneral)
                     break
-                elif user == "n" or user == "N":
-                    self.pause()
+                case 2:
+                    print("\nMOST CHEAPER AND MOST EXPENSIVE\n")
+                    expensive = self.most_expensive() # Llamada a funcion que se encarga de encontrar el valor mas caro de los arrays de arriba
+                    cheaper = self.most_cheaper(expensive) # Le pasa el valor mas caro para que pueda encontrar el valor mas barato
+
+                    #Productos mas caros
+                    print("- - - - - - - - - - - - - - - - - - - - - - - - - - - -")
+                    print("----- Most EXPENSIVE: products", expensive, "€ -----")
+                    for burger in self.burgers:
+                        if burger[2] == expensive:
+                            print("Name: ", burger[0], "\nPrice: ", burger[2], "€\n")
+                    for drink in self.drinks:
+                        if drink[2] == expensive:
+                            print("Name: ", drink[0], "\nPrice: ", drink[2], "€\n")
+                    for potato in self.potatoes:
+                        if potato[2] == expensive:
+                            print("Name: ", potato[0], "\nPrice: ", potato[2], "€\n")
+                    print("- - - - - - - - - - - - - - - - - - - - - - - - - - - -")
+                    print("- - - - - - - - - - - - - - - - - - - - - - - - - - - -")
+                    #Productos mas barators
+                    print("----- Most CHEAPER: products", cheaper, "€ -----")
+                    for burger in self.burgers:
+                        if burger[2] == cheaper:
+                            print("Name: ", burger[0], "\nPrice: ", burger[2], "€\n") 
+                    for drink in self.drinks:
+                        if drink[2] == cheaper:
+                            print("Name: ", drink[0], "\nPrice: ", drink[2], "€\n")
+                    for potato in self.potatoes:
+                        if potato[2] == cheaper:
+                            print("Name: ", potato[0], "\nPrice: ", potato[2], "€\n")
+                    print("- - - - - - - - - - - - - - - - - - - - - - - - - - - -")
                     break
+                case 3:
+                    print("\nTOTAL INVENTORY VALUE")
+                    total = self.total_inventory()
+                    print("Total inventory value:", total, "€")
+                    break
+            
+        # Ver si el usuario desea seguir actualizando o no
+        while True:
+            user = input("\nCONTINUE searching? y/n: ")
+            if user == "y" or user == "Y":
+                self.estadistics_resume()
+                break
+            elif user == "n" or user == "N":
+                self.pause()
+                break
+
+    #Funcion encargada de dar todo el total del inventario
+    def total_inventory(self):
+        """
+        Método que devuelve el valor total del inventario. Usado en el método estadistics_resume.
+        """
+        total = 0
+        if len(self.burgers) > 0:
+            for burger in self.burgers:
+                total += burger[1] * burger[2]
+        if len(self.drinks) > 0:
+            for drink in self.drinks:
+                total += drink[1] * drink[2]
+        if len(self.potatoes) > 0:
+            for potato in self.potatoes:
+                total += potato[1] * potato[2]
+        
+        return total
+    
+    # Funcion encargada de sumar el total de cada producto, y no ensuciar la funcion estadistics_resume
+    def total_for_each(self, item):
+        """
+        Método que devuelve el total de productos de un tipo concreto. Usado en el método estadistics_resume.
+        """
+        totalItem = 0
+        if (item == "burgers"):
+            for burger in self.burgers:
+                totalItem += burger[1]
+        elif (item == "drinks"):
+            for drink in self.drinks:
+                totalItem += drink[1]
+        elif (item == "potatoes"):
+            for potato in self.potatoes:
+                totalItem += potato[1]
+        
+        return totalItem
+    
+    def most_expensive(self):
+        """
+        Método que devuelve el producto más caro del inventario. Usado en el método estadistics_resume.
+        """
+        # Comprobar si hay algo en el array de burgers, drinks y potatoes
+        if len(self.burgers) > 0:
+            expensive = self.burgers[0][2] # Recogemos el primer valor de burgeres para comparar
+        elif len(self.drinks) > 0:
+            expensive = self.drinks[0][2] 
+        elif len(self.potatoes) > 0:
+            expensive = self.potatoes[0][2] 
+
+        # Comprobar si hay valores en el array y luego ver cual es el mas caro
+        if len(self.burgers) > 0:
+            for burger in self.burgers:
+                if burger[2] > expensive:
+                    expensive = burger[2]
+
+        if len(self.drinks) > 0:
+            for drink in self.drinks:
+                if drink[2] > expensive:
+                    expensive = drink[2]
+
+        if len(self.potatoes) > 0:
+            for potato in self.potatoes:
+                if potato[2] > expensive:
+                    expensive = potato[2]
+
+        return expensive
+
+    def most_cheaper(self, expensive):
+        """
+        Método que devuelve el producto más barato del inventario. Usado en el método estadistics_resume.
+        """
+        cheaper = expensive
+        for burger in self.burgers:
+            if burger[2] < cheaper:
+                cheaper = burger[2]
+        for drink in self.drinks:
+            if drink[2] < cheaper:
+                cheaper = drink[2]
+        for potato in self.potatoes:
+            if potato[2] < cheaper:
+                cheaper = potato[2]
+        
+        return cheaper
