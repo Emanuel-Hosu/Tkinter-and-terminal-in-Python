@@ -17,8 +17,8 @@ Este proyecto es una aplicación de inventario para un restaurante de hamburgues
 
 1. Clona el repositorio:
     ```bash
-    git clone https://github.com/tu_usuario/emis_burgers_inventory_py.git
-    cd emis_burgers_inventory_py
+    git clone https://github.com/tu_usuario/Tkinter-and-terminal-in-Python.git
+    cd Tkinter-and-terminal-in-Python
     ```
 
 2. Asegúrate de tener Python 3.x instalado en tu sistema.
